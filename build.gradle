@@ -1,0 +1,116 @@
+apply plugin: 'java'
+apply plugin: 'maven'
+//apply plugin: 'signing'
+apply from: 'http://tellurianring.com/projects/gradle-plugins/gradle-release/apply.groovy'
+
+buildscript {
+    repositories {
+        maven { url 'http://repo.spring.io/plugins-release' }
+    }
+    dependencies {
+        classpath 'org.springframework.build.gradle:propdeps-plugin:0.0.7'
+    }
+}
+
+configurations {
+    deployerJar
+}
+
+//What are these for?
+configure(allprojects) {
+    apply plugin: 'propdeps'
+    apply plugin: 'propdeps-maven'
+    apply plugin: 'propdeps-idea'
+    apply plugin: 'propdeps-eclipse'
+}
+
+repositories {
+    jcenter()
+    maven { url "https://raw.github.com/synergian/wagon-git/releases"}
+}
+
+dependencies {
+    provided "org.jasig.cas:cas-server-core:$casVersion"
+
+    testCompile "org.spockframework:spock-core:$spockVersion"
+
+    deployerJar "ar.com.synergian:wagon-git:$wagonGitVersion"
+}
+
+javadoc {
+    classpath = configurations.compile + configurations.provided
+}
+
+task javadocJar(type: Jar, dependsOn: javadoc) {
+    classifier = "javadoc"
+    from 'build/docs/javadoc'
+}
+
+task sourcesJar(type: Jar) {
+    from sourceSets.main.allSource
+    classifier = "sources"
+}
+
+artifacts {
+    archives jar
+    archives javadocJar
+    archives sourcesJar
+}
+
+/*signing {
+    required { gradle.taskGraph.hasTask("uploadArchives") }
+    sign configurations.archives
+}*/
+
+task wrapper(type: Wrapper) {
+    gradleVersion = "2.1"
+}
+
+
+//createReleaseTag.dependsOn uploadArchives
+
+/*uploadArchives {
+    repositories {
+        mavenDeployer {
+            beforeDeployment { MavenDeployment deployment -> signing.signPom(deployment)}
+            configuration = configurations.deployerJar
+            repository(url: "[NEED THIS URL]") {
+                authentication(userName: bintrayUsername, password: bintrayAPIKey)
+            }
+            snapshotRepository(url: "[NEED THIS URL]") {
+                authentication(userName: githubUsername, password: githubPassword)
+            }
+            pom.project {
+                name "CAS addon registered services commons"
+                packaging "jar"
+                description "An Apereo CAS addon with common APIs for code that deals with CAS' registered services model."
+                url "https://github.com/unicon-cas-addons/cas-addon-registered-services-commons"
+
+                scm {
+                    url "scm:git@github.com:unicon-cas-addons/cas-addon-registered-services-commons.git"
+                    connection "scm:git@github.com:unicon-cas-addons/cas-addon-registered-services-commons.git"
+                    developerConnection "scm:git@github.com:unicon-cas-addons/cas-addon-registered-services-commons.git"
+                }
+
+                licenses {
+                    license {
+                        name 'The Apache Software License, Version 2.0'
+                        url 'http://www.apache.org/licenses/LICENSE-2.0.txt'
+                        distribution 'repo'
+                    }
+                }
+
+                developers {
+                    developer {
+                        id 'dima767'
+                        name 'Dmitriy Kopylenko'
+                    }
+                    developer {
+                        id 'scalding'
+                        name 'Jonathan Johnson'
+                    }
+                }
+            }
+        }
+    }
+}*/
