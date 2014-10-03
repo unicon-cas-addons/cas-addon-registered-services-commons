@@ -64,7 +64,7 @@ uploadArchives {
     repositories {
         mavenDeployer {
             beforeDeployment { MavenDeployment deployment -> signing.signPom(deployment)}
-            repository(url: 'https://bintray.com/uniconiam/maven/cas-addon-registered-services-commons') {
+            repository(url: 'https://api.bintray.com/maven/uniconiam/maven/cas-addon-registered-services-commons') {
                 authentication(userName: bintrayUsername, password: bintrayAPIKey)
             }
             pom.project {
