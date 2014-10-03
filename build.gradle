@@ -1,6 +1,6 @@
 apply plugin: 'java'
 apply plugin: 'maven'
-//apply plugin: 'signing'
+apply plugin: 'signing'
 apply from: 'http://tellurianring.com/projects/gradle-plugins/gradle-release/apply.groovy'
 
 buildscript {
@@ -12,11 +12,6 @@ buildscript {
     }
 }
 
-configurations {
-    deployerJar
-}
-
-//What are these for?
 configure(allprojects) {
     apply plugin: 'propdeps'
     apply plugin: 'propdeps-maven'
@@ -26,15 +21,11 @@ configure(allprojects) {
 
 repositories {
     jcenter()
-    maven { url "https://raw.github.com/synergian/wagon-git/releases"}
 }
 
 dependencies {
     provided "org.jasig.cas:cas-server-core:$casVersion"
-
     testCompile "org.spockframework:spock-core:$spockVersion"
-
-    deployerJar "ar.com.synergian:wagon-git:$wagonGitVersion"
 }
 
 javadoc {
@@ -57,32 +48,28 @@ artifacts {
     archives sourcesJar
 }
 
-/*signing {
+signing {
     required { gradle.taskGraph.hasTask("uploadArchives") }
     sign configurations.archives
-}*/
+}
 
 task wrapper(type: Wrapper) {
     gradleVersion = "2.1"
 }
 
 
-//createReleaseTag.dependsOn uploadArchives
+createReleaseTag.dependsOn uploadArchives
 
-/*uploadArchives {
+uploadArchives {
     repositories {
         mavenDeployer {
             beforeDeployment { MavenDeployment deployment -> signing.signPom(deployment)}
-            configuration = configurations.deployerJar
-            repository(url: "[NEED THIS URL]") {
+            repository(url: 'https://bintray.com/uniconiam/maven/cas-addon-registered-services-commons') {
                 authentication(userName: bintrayUsername, password: bintrayAPIKey)
             }
-            snapshotRepository(url: "[NEED THIS URL]") {
-                authentication(userName: githubUsername, password: githubPassword)
-            }
             pom.project {
-                name "CAS addon registered services commons"
-                packaging "jar"
+                name 'CAS addon registered services commons'
+                packaging 'jar'
                 description "An Apereo CAS addon with common APIs for code that deals with CAS' registered services model."
                 url "https://github.com/unicon-cas-addons/cas-addon-registered-services-commons"
 
@@ -113,4 +100,4 @@ task wrapper(type: Wrapper) {
             }
         }
     }
-}*/
+}
