@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xsd:schema attributeFormDefault="unqualified"
+            elementFormDefault="qualified"
+            xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+            targetNamespace="http://unicon.net/schema/cas/registered-services"
+            xmlns="http://unicon.net/schema/cas/registered-services">
+
+    <xsd:element name="disable-default-registered-services-reloading" type="xsd:string"/>
+
+</xsd:schema>
