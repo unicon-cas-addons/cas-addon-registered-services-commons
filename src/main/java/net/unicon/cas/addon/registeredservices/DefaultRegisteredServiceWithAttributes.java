@@ -1,19 +1,18 @@
 package net.unicon.cas.addon.registeredservices;
 
+import org.jasig.cas.services.AbstractRegisteredService;
+import org.jasig.cas.services.RegisteredServiceImpl;
+
 import java.util.HashMap;
 import java.util.Map;
 
-import org.jasig.cas.services.AbstractRegisteredService;
-import org.jasig.cas.services.RegexRegisteredService;
-
 /**
- * An extension to {@code RegexRegisteredService} with extra arbitrary attributes.
+ * An extension to {@code RegisteredServiceImpl} with extra arbitrary attributes.
  *
- * @author Eric Pierce (epierce@usf.edu)
+ * @author Dmitriy Kopylenko
  * @since 1.0.0
  */
-
-public class RegexRegisteredServiceWithAttributes extends RegexRegisteredService implements RegisteredServiceWithAttributes {
+public class DefaultRegisteredServiceWithAttributes extends RegisteredServiceImpl implements RegisteredServiceWithAttributes {
 
     private static final long serialVersionUID = 1L;
 
@@ -30,6 +29,6 @@ public class RegexRegisteredServiceWithAttributes extends RegexRegisteredService
 
     @Override
     protected AbstractRegisteredService newInstance() {
-        return new RegexRegisteredServiceWithAttributes();
+        return new DefaultRegisteredServiceWithAttributes();
     }
 }

@@ -3,6 +3,9 @@ apply plugin: 'maven'
 apply plugin: 'signing'
 apply from: 'http://tellurianring.com/projects/gradle-plugins/gradle-release/apply.groovy'
 
+sourceCompatibility = 1.7
+targetCompatibility = 1.7
+
 buildscript {
     repositories {
         maven { url 'http://repo.spring.io/plugins-release' }
